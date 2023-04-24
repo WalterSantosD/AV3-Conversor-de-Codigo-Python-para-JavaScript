@@ -1,0 +1,8 @@
+print ( " Guess a number between 1 and 10: " ) ;
+num = int ( input() )
+if num < 1 or num > 10 :
+print ( " That is not between 1 and 10 " )
+if num == 6 :
+print ( " Correct!!! " )
+else :
+print ( " Try again " )
