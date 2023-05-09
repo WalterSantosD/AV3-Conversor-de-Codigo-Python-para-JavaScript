@@ -1,0 +1,7 @@
+if num < 1  or num > 10 and num == 15 :
+    print ( " That is not between 1 and 10 " ) ;
+else :
+    print ( " Try again " ) 
+
+
+    
