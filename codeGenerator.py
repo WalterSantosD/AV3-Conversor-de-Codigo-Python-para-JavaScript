@@ -1,74 +1,52 @@
 class CodeGenerator:
-    def __init__(self, ast):
-        self.ast = ast
-        self.output = ""
+    def __init__(self):
+        self.indent_level = 0
+        self.indentation = '    '  # 4 spaces for each level of indentation
 
-    def generate(self):
-        self.generate_program(self.ast)
-        return self.output
+    def generate_js_code_for_print(self, expression):
+        return f'console.log({expression});'
 
-    def generate_program(self, node):
-        for statement in node.statements:
-            self.generate_statement(statement)
+    def generate_js_code_for_return(self, expression):
+        return f'return {expression};'
 
-    def generate_statement(self, node):
-        if isinstance(node, AssignmentNode):
-            self.generate_assignment(node)
-        elif isinstance(node, ExpressionNode):
-            self.generate_expression(node)
+    def generate_js_code_for_assignment(self, identifier, expression):
+        return f'var {identifier} = {expression};'
 
-    def generate_assignment(self, node):
-        variable_name = node.identifier.name
-        expression = self.generate_expression(node.expression)
-        self.output += f"let {variable_name} = {expression};\n"
+    def generate_js_code_for_if_structure(self, condition):
+        return f'if ({condition}) {{'
 
-    def generate_expression(self, node):
-        if isinstance(node, BinaryOperatorNode):
-            left = self.generate_expression(node.left)
-            right = self.generate_expression(node.right)
-            operator = self._convert_operator(node.operator)
-            return f"({left} {operator} {right})"
-        elif isinstance(node, UnaryOperatorNode):
-            expression = self.generate_expression(node.expression)
-            operator = self._convert_operator(node.operator)
-            return f"({operator}{expression})"
-        elif isinstance(node, NumberNode):
-            return str(node.value)
-        elif isinstance(node, IdentifierNode):
-            return node.name
-        elif isinstance(node, FunctionCallNode):
-            function_name = node.identifier.name
-            arguments = ", ".join(self.generate_expression(arg) for arg in node.arguments)
-            return f"{function_name}({arguments})"
+    def generate_js_code_for_else_block(self):
+        return 'else {'
 
-    def _convert_operator(self, operator):
-        if operator == "+":
-            return "+"
-        elif operator == "-":
-            return "-"
-        elif operator == "*":
-            return "*"
-        elif operator == "/":
-            return "/"
-        elif operator == "%":
-            return "%"
-        elif operator == "==":
-            return "=="
-        elif operator == "!=":
-            return "!="
-        elif operator == "<":
-            return "<"
-        elif operator == ">":
-            return ">"
-        elif operator == "<=":
-            return "<="
-        elif operator == ">=":
-            return ">="
-        elif operator == "and":
-            return "&&"
-        elif operator == "or":
-            return "||"
-        elif operator == "not":
-            return "!"
-        else:
-            raise CodeGenerationError(f"Unknown operator: {operator}")
+    def generate_js_code_for_close_if_structure(self):
+        return '}'
+
+    def generate_js_code_for_logical_expression(self, left, operator, right):
+        return f'{left} {operator} {right}'
+
+    def generate_js_code_for_equality_expression(self, left, operator, right):
+        return f'{left} {operator} {right}'
+
+    def generate_js_code_for_relational_expression(self, left, operator, right):
+        return f'{left} {operator} {right}'
+
+    def generate_js_code_for_additive_expression(self, left, operator, right):
+        return f'{left} {operator} {right}'
+
+    def generate_js_code_for_multiplicative_expression(self, left, operator, right):
+        return f'{left} {operator} {right}'
+
+    def generate_js_code_for_number(self, value):
+        return value
+
+    def generate_js_code_for_string(self, value):
+        return f'"{value}"'
+
+    def generate_js_code_for_boolean(self, value):
+        return value.lower()
+
+    def generate_js_code_for_identifier(self, identifier):
+        return identifier
+
+    def generate_js_code_for_parenthesized_expression(self, expression):
+        return f'({expression})'
